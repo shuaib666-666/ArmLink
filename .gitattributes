@@ -1,0 +1,16 @@
+# 統一換行符：仓库內一律 LF，checkout 時照各平台慣例
+* text=auto
+
+# 原始碼一律 LF，避免混合行尾造成的 diff 噪音
+*.cs text eol=lf
+*.xaml text eol=lf
+*.csproj text eol=lf
+*.props text eol=lf
+*.sln text eol=crlf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+
+# 二進位檔不做任何轉換
+*.png binary
+*.ico binary

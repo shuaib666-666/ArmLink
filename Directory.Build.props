@@ -1,0 +1,25 @@
+<!--
+  共用建置設定：所有專案（Core / UI / Tests）都會自動套用這裡的屬性。
+  集中管理的好處是 Nullable、語言版本、分析器等設定永遠保持一致。
+-->
+<Project>
+
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- 版本統一由這裡控管，面試展示時一眼就看到版本規劃 -->
+    <Version>0.1.0</Version>
+    <Authors>ArmLink Contributors</Authors>
+    <Product>ArmLink</Product>
+    <Copyright>Copyright (c) ArmLink Contributors</Copyright>
+  </PropertyGroup>
+
+</Project>

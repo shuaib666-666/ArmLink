@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>ArmLink.Core</RootNamespace>
+    <AssemblyName>ArmLink.Core</AssemblyName>
+    <Description>協定編解碼、狀態模型、TCP 客戶端與虛擬機台模擬器，完全不依賴 UI。</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

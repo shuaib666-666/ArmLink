@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- WPF 只能在 Windows 上跑，因此這裡使用 net8.0-windows -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>ArmLink.UI</RootNamespace>
+    <AssemblyName>ArmLink.UI</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <OutputType>WinExe</OutputType>
+    <!-- 中文化界面：避免 WPF 預設 en-US 資源影響日期與數字格式 -->
+    <NeutralLanguage>zh-Hant</NeutralLanguage>
+    <!-- App 作為 Composition Root 持有 ViewModel 生命週期，由 Window.Closed 負責釋放，因此關閉 CA1001 -->
+    <NoWarn>$(NoWarn);CA1001</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArmLink.Core\ArmLink.Core.csproj" />
+  </ItemGroup>
+
+</Project>

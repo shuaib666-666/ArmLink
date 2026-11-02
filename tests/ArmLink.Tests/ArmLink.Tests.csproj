@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>ArmLink.Tests</RootNamespace>
+    <AssemblyName>ArmLink.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- 測試專案不需要 XML 文件 -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- 測試命名慣例用底線分段（Subject_Action_Expectation），因此關閉 CA1707 -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+
+  <!-- 所有測試檔自動隱含 using Xunit; -->
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ArmLink.Core\ArmLink.Core.csproj" />
+  </ItemGroup>
+
+</Project>

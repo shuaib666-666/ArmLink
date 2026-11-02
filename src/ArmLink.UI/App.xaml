@@ -1,0 +1,10 @@
+<Application x:Class="ArmLink.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        刻意不使用 StartupUri：視窗要由 App.OnStartup 手動建立，
+        才能把 ViewModel 以建構子注入（Constructor Injection），而不是讓 View 自己 new。
+    -->
+    <Application.Resources>
+    </Application.Resources>
+</Application>
