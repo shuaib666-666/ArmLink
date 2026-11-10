@@ -24,3 +24,4 @@ coverage*.info
 ## OS
 .DS_Store
 Thumbs.db
+docs/_check.png
