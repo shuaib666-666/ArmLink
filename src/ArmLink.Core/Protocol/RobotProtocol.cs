@@ -7,7 +7,7 @@ namespace ArmLink.Core.Protocol;
 /// <summary>
 /// ArmLink 的文字協定Codec中心。
 /// <para>
-/// 協定設計（Line-based ASCII，以 <c>\n</c> 結框）：
+/// 協定設計（Line-based 文字協定，線上編碼 UTF-8，以 <c>\n</c> 結框）：
 /// <list type="bullet">
 ///   <item><description>客戶端指令：<c>MOVE:X,Y,Z</c> / <c>JOG:dX,dY,dZ</c> / <c>HOME</c> / <c>ESTOP</c> / <c>RESET</c> / <c>SPEED:mm/s</c> / <c>MODE:AUTO</c> / <c>PING</c></description></item>
 ///   <item><description>指令回應：<c>OK:MOVE|accepted</c> / <c>ERR:MOVE|COORDINATE_OUT_OF_RANGE|X axis out of range</c></description></item>

@@ -405,7 +405,7 @@ public sealed class TcpRobotClient : IRobotClient
 
                     try
                     {
-                        var bytes = Encoding.ASCII.GetBytes(RobotProtocol.AppendTerminator(request.Line));
+                        var bytes = Encoding.UTF8.GetBytes(RobotProtocol.AppendTerminator(request.Line));
                         await stream.WriteAsync(bytes, token).ConfigureAwait(false);
                         await stream.FlushAsync(token).ConfigureAwait(false);
                         EmitLog(LogDirection.Transmit, request.Line);
@@ -439,6 +439,10 @@ public sealed class TcpRobotClient : IRobotClient
     private async Task ReadLoopAsync(NetworkStream stream, CancellationToken token)
     {
         var pending = new StringBuilder();
+        // 增量解碼器：UTF-8 多位元組字元可能被 TCP 分包從中間切開，
+        // Decoder 會保留未完成的序列直到湊齊，不會產生亂碼。
+        var decoder = Encoding.UTF8.GetDecoder();
+        var charBuffer = new char[Encoding.UTF8.GetMaxCharCount(_readBuffer.Length)];
 
         while (!token.IsCancellationRequested)
         {
@@ -449,11 +453,13 @@ public sealed class TcpRobotClient : IRobotClient
                 return;
             }
 
-            // 本協定為純 ASCII，'\n' (0x0A) 不可能出現在多位元組序列裡，
-            // 因此逐位元組掃描切行是安全的，不需要額外的編碼器。
-            for (var i = 0; i < read; i++)
+            var chars = decoder.GetChars(_readBuffer, 0, read, charBuffer, 0, flush: false);
+
+            // UTF-8 的續位元組皆 >= 0x80，'\n' (0x0A) 不可能出現在多位元組序列裡，
+            // 因此逐字元掃描切行是安全的。
+            for (var i = 0; i < chars; i++)
             {
-                var character = (char)_readBuffer[i];
+                var character = charBuffer[i];
 
                 if (character == RobotProtocol.LineTerminator)
                 {

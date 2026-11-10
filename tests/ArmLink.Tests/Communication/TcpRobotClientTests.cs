@@ -92,6 +92,25 @@ public class TcpRobotClientTests
         Assert.Equal(CommandType.Move, exception.Command);
     }
 
+    [Fact]
+    public async Task RejectedMessage_NonAsciiText_SurvivesWireRoundTrip()
+    {
+        // 線上編碼必須是 UTF-8：Core 的中文錯誤訊息（如「軸超出軟體極限」）
+        // 若被 Encoding.ASCII 壓成 '??????'，上位機就無法顯示有意義的錯誤。
+        await using var server = new MockRobotServer(new MockRobotServerOptions { Port = 0, CommandProcessDelay = TimeSpan.Zero });
+        await server.StartAsync();
+
+        await using var client = new TcpRobotClient("127.0.0.1", server.Port);
+        await client.ConnectAsync();
+
+        // Z 從原點往 -10 一定越界（Z 行程 0~600），錯誤訊息含中文。
+        var exception = await Assert.ThrowsAsync<CommandRejectedException>(
+            () => client.ExecuteAsync(RobotCommand.JogAxis(Axis.Z, -10)));
+
+        Assert.Contains("軸超出軟體極限", exception.Message, StringComparison.Ordinal);
+        Assert.DoesNotContain("?", exception.Message, StringComparison.Ordinal);
+    }
+
     // ---------------- 逾時與壞封包防呆 ----------------
 
     [Fact]

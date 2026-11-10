@@ -306,6 +306,8 @@ public sealed class MockRobotServer : IRobotServer
     {
         var buffer = new byte[1024];
         var pending = new StringBuilder();
+        var decoder = Encoding.UTF8.GetDecoder();
+        var charBuffer = new char[Encoding.UTF8.GetMaxCharCount(buffer.Length)];
 
         while (!token.IsCancellationRequested)
         {
@@ -315,9 +317,11 @@ public sealed class MockRobotServer : IRobotServer
                 return; // 客戶端離線
             }
 
-            for (var i = 0; i < read; i++)
+            var chars = decoder.GetChars(buffer, 0, read, charBuffer, 0, flush: false);
+
+            for (var i = 0; i < chars; i++)
             {
-                var character = (char)buffer[i];
+                var character = charBuffer[i];
 
                 if (character == RobotProtocol.LineTerminator)
                 {
@@ -382,7 +386,7 @@ public sealed class MockRobotServer : IRobotServer
             {
                 while (reader.TryRead(out var payload))
                 {
-                    var bytes = Encoding.ASCII.GetBytes(RobotProtocol.AppendTerminator(payload));
+                    var bytes = Encoding.UTF8.GetBytes(RobotProtocol.AppendTerminator(payload));
                     await stream.WriteAsync(bytes, token).ConfigureAwait(false);
                     await stream.FlushAsync(token).ConfigureAwait(false);
                 }
