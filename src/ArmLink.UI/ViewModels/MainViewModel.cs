@@ -84,6 +84,7 @@ public partial class MainViewModel : ObservableObject, IAsyncDisposable
     [NotifyCanExecuteChangedFor(nameof(JogCommand))]
     [NotifyCanExecuteChangedFor(nameof(HomeCommand))]
     [NotifyCanExecuteChangedFor(nameof(EmergencyStopCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ResetCommand))]
     private bool _isConnected;
 
     /// <summary>連線區的狀態文字。</summary>
