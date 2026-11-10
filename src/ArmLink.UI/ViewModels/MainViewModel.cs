@@ -220,6 +220,9 @@ public partial class MainViewModel : ObservableObject, IAsyncDisposable
         }
     }
 
+    [RelayCommand(CanExecute = nameof(IsConnected))]
+    private async Task ResetAsync() => await ExecuteAsync(RobotCommand.Reset(), "急停復歸");
+
     [RelayCommand]
     private Task ClearLogsAsync() => _dispatcher.InvokeAsync(() =>
     {
